@@ -1,27 +1,36 @@
 import {useState} from 'react';
+import {useForm} from '@inertiajs/react';
+
 
 export default function Upload(){
 
-const [src , setSrc] = useState('');
-let sayhi = (e: any) => {
-	let file:any = e.target.files[0];
-	let tempURL:any = URL.createObjectURL( file);
-	setSrc( tempURL );
+const {data, setData, post,  progress} = useForm({
+	tempURL:'',
+	file:''
+});
 
-	// laravel-specific section
-		// 2 steps !!
-	// 1. create a FormData object
-	let fd: FormData = new FormData();
-	fd.append('file', file);
-	// 2. append the file to that opbject !
-		// DONE!!
+const [src , setSrc] = useState('');
+
+let sendData = (e: any)=>{
+
+	e.preventDefault();
+	post('/upload');
+
+}
+
+let sayhi = (file: any) => {
+	let tempURL:string = URL.createObjectURL(file);
+	setSrc( tempURL );
 }
 
 return (
 <>
-	<input type="file" onChange={sayhi} multiple/>
-	<button >Upload</button>
-	<img src={src} alt="image_not_yet_uploaded" />
+	<form onSubmit={sendData}>
+		<input type="text" onChange={ (e)=> {setData('tempURL',e.target.value);} } value={data.tempURL??""} />
+		<input type="file" onChange={(e)=>{setData('file', e.target.files);sayhi(e.target.files[0]);}} multiple/>
+		<button >Upload</button>
+		<img src={src} alt="image_not_yet_uploaded" />
+	</form>
 </>
 
 );

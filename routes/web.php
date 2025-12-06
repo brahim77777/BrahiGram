@@ -3,6 +3,8 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Http\Request;
 use Inertia\Inertia;
 
 Route::get('/', function () {
@@ -21,6 +23,14 @@ Route::get('/dashboard', function () {
 Route::get('/upload', function(){
 
 	return Inertia::render('Upload');
+});
+Route::post('/upload', function(Request $request){
+
+	$file = $request->file[0];
+	$file_content = $file->get();
+	$file_name = time().'-'.uniqid().'.'.$file->getClientOriginalExtension();
+	
+	dd(	Storage::put($file_name, $file_content));
 });
 
 Route::middleware('auth')->group(function () {
