@@ -1,6 +1,9 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import Upload from './Upload'
+import Upload from './Upload';
+import InstagramHome from './InstagramHome';
+import InstagramExplore from './InstagramExplore';
+import CreatePost from './CreatePost';
 export default function Dashboard() {
     return (
         <AuthenticatedLayout
@@ -12,11 +15,13 @@ export default function Dashboard() {
         >
             <Head title="Dashboard" />
 
+                            <InstagramHome />
+                            <InstagramExplore />
+			    <CreatePost />
             <div className="py-12">
                 <div className="mx-auto max-w-7xl sm:px-6 lg:px-8">
                     <div className="overflow-hidden bg-white shadow-sm sm:rounded-lg dark:bg-gray-800">
                         <div className="p-6 text-gray-900 dark:text-gray-100">
-                            <Upload/>
                         </div>
                     </div>
                 </div>
